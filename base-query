@@ -1,0 +1,27 @@
+<?php
+$args = array(
+    'role'           => 'user',
+    'order'          => 'ASC',
+    'orderby'        => 'user_login',
+);
+
+// The Query
+$user_query = new WP_User_Query( $args );
+$html = '';
+// User Loop
+if ( ! empty( $user_query->get_results() ) ) {
+  $html = '<div class="talent-list">';
+    foreach ( $user_query->get_results() as $user ) {
+        $html .= '<div class="user user_' . $user->display_name .' ">';
+		$html .= '<div class="user-avatar">' . get_avatar($user->ID) . '</div>';
+        $html .= '<div class="display-name">' . $user->display_name . '</div>';
+        $html .= '<div class="first_name full-name">' . $user->first_name . '</div>';
+ 		$html .= '<a class="oh-button oh-button-blue" href="' . get_author_posts_url($user->ID) . '">View Profile</a>';
+        $html .= '</div>';
+    }
+    $html .= '<div>';
+} else {
+    $html .= 'No users found.';
+}
+echo $html;
+?>
